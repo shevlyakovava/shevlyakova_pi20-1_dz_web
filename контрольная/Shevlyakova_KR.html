@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="mysite.css">
+<style>
+</style>
+
+
+<script>
+window.onload = function () {
+
+
+  
+  var word ;             
+  var guess ;             
+  var geusses = [ ];      
+  var lives ;             
+  var counter ;           
+  var space;              
+
+
+  var showLives = document.getElementById("mylives");
+  
+    var alphabet = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж',
+        'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с',
+        'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ','ъ','ы', 'ь', 'э', 'ю', 'я'];
+
+
+
+
+  var buttons = function () {
+    myButtons = document.getElementById('buttons');
+    letters = document.createElement('ul');
+
+    for (var i = 0; i < alphabet.length; i++) {
+      letters.id = 'alphabet';
+      list = document.createElement('li');
+      list.id = 'letter';
+      list.innerHTML = alphabet[i];
+      check();
+      myButtons.appendChild(letters);
+      letters.appendChild(list);
+    }
+  }
+    
+  
+
+
+
+   result = function () {
+    wordHolder = document.getElementById('hold');
+    correct = document.createElement('ul');
+
+    for (var i = 0; i < word.length; i++) {
+      correct.setAttribute('id', 'my-word');
+      guess = document.createElement('li');
+      guess.setAttribute('class', 'guess');
+      if (word[i] === "-") {
+        guess.innerHTML = "-";
+        space = 1;
+      } 
+	  else if (word[i] === " ") {
+        guess.innerHTML = " ";
+        space = 1;
+      } 
+	  else {
+        guess.innerHTML = "_";
+      }
+
+      geusses.push(guess);
+      wordHolder.appendChild(correct);
+      correct.appendChild(guess);
+    }
+  }
+  
+
+   comments = function () {
+    showLives.innerHTML = "У вас " + lives + " жизней";
+    if (lives < 1) {
+      showLives.innerHTML = "Игра окончена";
+    }
+    for (var i = 0; i < geusses.length; i++) {
+      if (counter + space === geusses.length) {
+        showLives.innerHTML = "Вы победили!!";
+      }
+    }
+  }
+
+
+  
+   check = function () {
+    list.onclick = function () {
+      var geuss = (this.innerHTML);
+	  this.setAttribute("class", "active");
+      this.onclick = null;
+		this.style.backgroundColor = "red";
+      for (var i = 0; i < word.length; i++) {
+        if (word[i] === geuss) {
+          geusses[i].innerHTML = geuss;
+          counter += 1;
+        } 
+      }
+      var j = (word.indexOf(geuss));
+
+      if (j === -1) {
+        lives -= 1;
+        comments();
+      } else {
+        comments();
+      }
+    }
+  }
+  
+    
+  play = function () {
+	
+    word = prompt('Введите слово').toLowerCase();
+    word = word.replace(/\s/g, " ");
+    console.log(word);
+    buttons();
+
+    geusses = [ ];
+    lives = 10;
+    counter = 0;
+    space = 0;
+    result();
+    comments();
+ 
+	
+  }
+play();
+
+  document.getElementById('reload').onclick = function() {
+    window.location.reload();
+  }
+}
+
+    </script>
+
+
+
+<body>
+
+<div class="wrapper">
+   <h1>Висилица</h1>
+    <h2>Выбирайте буквы</h2>
+</div>
+<div class="wrapper">
+    <div id="buttons">
+    </div>  
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+    <div id="hold">
+    </div>
+    <p id="mylives"></p>
+    <div class="container">
+      <button id="reload">Начать заново</button>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
